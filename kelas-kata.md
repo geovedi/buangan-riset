@@ -170,9 +170,9 @@ penggabung dua konsep dalam sebuah kalimat.
 
 ### Contoh
 
-- _*Sebelum* makan, ia mencuci tangan terlebih dahulu._
-- _Kebanyakan penduduknya beragama Katolik, *namun* ada sedikit orang Islam di sana._
-- _Ini pekerjaan sulit, *tetapi* ia yakin *bahwa* ia merasa tidak sendirian._
+- *Sebelum* _makan, ia mencuci tangan terlebih dahulu._
+- _Kebanyakan penduduknya beragama Katolik,_ *namun* _ada sedikit orang Islam di sana._
+- _Ini pekerjaan sulit,_ *tetapi* _ia yakin_ *bahwa* _ia merasa tidak sendirian._
 
 
 ## SYM
