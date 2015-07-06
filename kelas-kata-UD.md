@@ -1,4 +1,4 @@
-# Kelas Kata
+# Universal Dependency
 
 
 ## ADJ
