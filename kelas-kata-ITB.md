@@ -45,8 +45,9 @@ Disalin dari proyek MorphInd-nya [Tina](http://septinalarasati.com/work/morphind
 | `X`      | `X--` | `X` (Unknown)				           |                          |                             |
 | `PUNCT`  | `Z--` | `Z` (Punctuation)	             |                          |                             |
 
-*) untuk `W` sebagai _interrogative pronouns_ (_who_; _siapa_, _siapakah_) menjadi `PRON`, `W` sebagai _interrogative adverbs_ (_where_, _when_, _how_, _why_; _di mana_, _kapan_, _bilamana_, _bagaimana_, _mengapa_)  menjadi `ADV`, `W` sebagai _interrogative determiners_ (_which_; _yang mana_) menjadi `DET`
+*) untuk `W--` sebagai _interrogative pronouns_ (_who_; _siapa_, _siapakah_) menjadi `PRON`, `W--` sebagai _interrogative adverbs_ (_where_, _when_, _how_, _why_; _di mana_, _kapan_, _bilamana_, _bagaimana_, _mengapa_)  menjadi `ADV`, `W--` sebagai _interrogative determiners_ (_which_; _yang mana_) menjadi `DET`
 
+**) kelas `PROPN` masih belum ditentukan. oleh MorphInd, kelas yang digunakan adalah `X--` dan `F--`
 
 ## Lemma Tagset
 
