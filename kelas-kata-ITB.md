@@ -41,7 +41,7 @@ Disalin dari proyek MorphInd-nya [Tina](http://septinalarasati.com/work/morphind
 | `PART`   | `G--` | `G` (Negation)				           |                          |                             |
 | `INTJ`   | `I--` | `I` (Interjection)			         |                          |                             |
 | `VERB`   | `O--` | `O` (Copula)				             |                          |                             |
-| `PRON`*  | `W--` | `W` (Question)				           |                          |                             |
+| *        | `W--` | `W` (Question)				           |                          |                             |
 | `X`      | `X--` | `X` (Unknown)				           |                          |                             |
 | `PUNCT`  | `Z--` | `Z` (Punctuation)	             |                          |                             |
 
