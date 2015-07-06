@@ -5,7 +5,7 @@ Disalin dari proyek MorphInd-nya [Tina](http://septinalarasati.com/work/morphind
 
 ## Morphological Tagset
 
-|   UD     |   .   | First position                  | Second position          | Third position              |
+|   UD     |  ITB  | First position                  | Second position          | Third position              |
 | -------- | ----- | ------------------------------- | ------------------------ | --------------------------- |
 | `NOUN`   | `NPF` | `N` (Noun)                      | `P` (Plural)             | `F` (Feminine)              |
 | `NOUN`   | `NPM` | `N` (Noun)                      | `P` (Plural)             | `M` (Masculine)             |
