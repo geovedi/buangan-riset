@@ -1,4 +1,4 @@
-# Universal Dependency
+# Universal POS Tags
 
 
 ## ADJ
