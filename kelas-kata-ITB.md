@@ -1,5 +1,9 @@
 
-# Morphological Tagset
+# Indonesian Treebank
+
+Disalin dari proyek MorphInd-nya [Tina](http://septinalarasati.com/work/morphind/).
+
+## Morphological Tagset
 
 |   .   | First position                  | Second position          | Third position              |
 | ----- | ------------------------------- | ------------------------ | --------------------------- |
@@ -41,7 +45,7 @@
 | `X--` | `X` (Unknown)				            |                          |                             |
 | `Z--` | `Z` (Punctuation)	              |                          |                             |
 
-# Lemma Tagset
+## Lemma Tagset
 
 |  .  | Tagset                     |
 | --- | -------------------------- |
@@ -65,6 +69,4 @@
 | `x` | Unknown                    |
 | `z` | Punctuation                |
 
-## Referensi:
 
-[MorphInd](http://septinalarasati.com/work/morphind/)
