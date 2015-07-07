@@ -1,3 +1,5 @@
 # Catatan NLP bahasa Indonesia
 
-Repositori catatan personal penelitian linguistik.
+Sesuai nama, ini adalah repositori personal terkait penelitian linguistik
+bahasa Indonesia.
+
