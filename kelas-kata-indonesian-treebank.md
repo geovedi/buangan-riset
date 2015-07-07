@@ -33,20 +33,22 @@ Sebagian besar informasi di bawah ini disalin dari proyek MorphInd oleh [Tina](h
 | `ADJ`    | `ASS`  | `A` (Adjective)                 | `S` (Singular)           | `S` (Superlative)           |
 | `CONJ`   | `H--`  | `H` (Coordinating Conjunction)  |                          |                             |
 | `SCONJ`  | `S--`  | `S` (Subordinating Conjunction) |                          |                             |
-| `X`      | `F--`  | `F` (Foreign Word)			        |                          |                             |
-| `ADP`    | `R--`  | `R` (Preposition)				        |                          |                             |
-| `AUX`    | `M--`  | `M` (Modal)				              |                          |                             |
-| `DET`    | `B--`  | `B` (Determiner)				        |                          |                             |
-| `ADV`    | `D--`  | `D` (Adverb)				            |                          |                             |
-| `PART`   | `T--`  | `T` (Particle)				          |                          |                             |
-| `PART`   | `G--`  | `G` (Negation)				          |                          |                             |
-| `INTJ`   | `I--`  | `I` (Interjection)			        |                          |                             |
-| `VERB`   | `O--`  | `O` (Copula)				            |                          |                             |
-| *        | `W--`  | `W` (Question)				          |                          |                             |
-| `X`      | `X--`  | `X` (Unknown)				            |                          |                             |
-| `PUNCT`  | `Z--`  | `Z` (Punctuation)	              |                          |                             |
+| `X`      | `F--`  | `F` (Foreign Word)              |                          |                             |
+| `ADP`    | `R--`  | `R` (Preposition)               |                          |                             |
+| `AUX`    | `M--`  | `M` (Modal)                     |                          |                             |
+| `DET`    | `B--`  | `B` (Determiner)                |                          |                             |
+| `ADV`    | `D--`  | `D` (Adverb)                    |                          |                             |
+| `PART`   | `T--`  | `T` (Particle)                  |                          |                             |
+| `PART`   | `G--`  | `G` (Negation)                  |                          |                             |
+| `INTJ`   | `I--`  | `I` (Interjection)              |                          |                             |
+| `VERB`   | `O--`  | `O` (Copula)                    |                          |                             |
+| `PRON`   | `WP-`  | `W` (Question)                  | `P` (Pronoun)            |                             |
+| `ADV`    | `WD-`  | `W` (Question)                  | `D` (Adverb)             |                             |
+| `DET`    | `WB-`  | `W` (Question)                  | `B` (Determiner)         |                             |
+| `X`      | `X--`  | `X` (Unknown)                   |                          |                             |
+| `PUNCT`  | `Z--`  | `Z` (Punctuation)               |                          |                             |
 
-*) untuk `W--` sebagai _interrogative pronouns_ (_who_; _siapa_, _siapakah_) menjadi `PRON`, `W--` sebagai _interrogative adverbs_ (_where_, _when_, _how_, _why_; _di mana_, _kapan_, _bilamana_, _bagaimana_, _mengapa_)  menjadi `ADV`, `W--` sebagai _interrogative determiners_ (_which_; _yang mana_) menjadi `DET`
+*) ~~untuk `W--` sebagai _interrogative pronouns_ (_who_; _siapa_, _siapakah_) menjadi `PRON`, `W--` sebagai _interrogative adverbs_ (_where_, _when_, _how_, _why_; _di mana_, _kapan_, _bilamana_, _bagaimana_, _mengapa_)  menjadi `ADV`, `W--` sebagai _interrogative determiners_ (_which_; _yang mana_) menjadi `DET`~~
 
 **) ~~kelas `PROPN` masih belum ditentukan. oleh MorphInd, kelas yang digunakan adalah `X--` dan `F--`~~
 
@@ -73,5 +75,4 @@ Sebagian besar informasi di bawah ini disalin dari proyek MorphInd oleh [Tina](h
 | `w` | Question                   |
 | `x` | Unknown                    |
 | `z` | Punctuation                |
-
 
