@@ -7,7 +7,7 @@ Sebagian besar informasi di bawah ini disalin dari proyek MorphInd oleh [Tina](h
 
 |   UD     |  ITB   | First position                  | Second position          | Third position              |
 | -------- | ------ | ------------------------------- | ------------------------ | --------------------------- |
-| `PROPN`  | `E--`  | `E` (Entity Name/Proper Noun)   |                          |                             |
+| `PROPN`  | `E--`  | `E` (Proper Noun)               |                          |                             |
 | `NOUN`   | `NPF`  | `N` (Noun)                      | `P` (Plural)             | `F` (Feminine)              |
 | `NOUN`   | `NPM`  | `N` (Noun)                      | `P` (Plural)             | `M` (Masculine)             |
 | `NOUN`   | `NPD`  | `N` (Noun)                      | `P` (Plural)             | `D` (Non-Specified)         |
