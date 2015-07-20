@@ -1,4 +1,3 @@
-
 # Indonesian Treebank
 
 Sebagian besar informasi di bawah ini disalin dari proyek MorphInd oleh [Tina](http://septinalarasati.com/work/morphind/).
