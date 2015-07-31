@@ -13,7 +13,7 @@ logging.basicConfig(format='%(asctime)s [%(process)d] [%(levelname)s] %(message)
 
 nlp = English()
 
-labels = ['nsubj', 'dobj', 'nsubjpass', 'pcomp', 'pobj', 'conj']
+labels = ['nsubj', 'dobj', 'nsubjpass', 'pcomp', 'pobj', 'conj', 'attr']
 np_deps = [nlp.vocab.strings[label] for label in labels]
 
 def extract_np(doc):
