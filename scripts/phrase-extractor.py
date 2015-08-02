@@ -31,8 +31,8 @@ def phrase_extraction(srctext, trgtext, alignment):
     srclen = len(srctext)
     trglen = len(trgtext)
 
-    e_aligned = [i for i,_ in alignment]
-    f_aligned = [j for _,j in alignment]
+    e_aligned = [i for i, _ in alignment]
+    f_aligned = [j for _, j in alignment]
 
     for e_start in range(srclen):
         for e_end in range(e_start, srclen):
@@ -45,7 +45,7 @@ def phrase_extraction(srctext, trgtext, alignment):
             if f_end < 0:
                 break
 
-            for e,f in alignment:
+            for e, f in alignment:
                 if ((f_start <= f <= f_end) and (e < e_start or e > e_end)):
                     break
 
@@ -83,6 +83,8 @@ def main(source_file, target_file, aligment_file, output_file, max_ngram=5):
 
     with codecs.open(output_file, 'w', 'utf-8') as out:
         for x, y, z in zip(sources, targets, alignments):
+            if len(x.split()) > 30 or len(y.split()) > 30:
+                continue
             for a, b in phrase_extraction(x, y, z):
                 a, b = whitespace_tokenizer(a), whitespace_tokenizer(b)
                 if 1 <= len(a) <= max_ngram and 1 <= len(b) <= max_ngram:
