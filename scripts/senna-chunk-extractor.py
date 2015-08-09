@@ -26,12 +26,14 @@ def main():
             chunks = []
         else:
             word, label = parts
-            if label.startswith('S-') or label.startswith('B-'):
-                label = label.split('-')[1]
-                chunks.append(([word], label))
-            elif label.startswith('I-') or label.startswith('E-'):
-                chunks[-1][0].append(word)
-
+            try:
+                if label.startswith('S-') or label.startswith('B-'):
+                    label = label.split('-')[1]
+                    chunks.append(([word], label))
+                elif label.startswith('I-') or label.startswith('E-'):
+                    chunks[-1][0].append(word)
+            except:
+                pass
 
 if __name__ == '__main__':
     plac.call(main)
