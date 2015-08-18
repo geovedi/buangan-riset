@@ -1,0 +1,59 @@
+diff --git a/glove.c b/glove.c
+index dbffc94..e07734f 100644
+--- a/glove.c
++++ b/glove.c
+@@ -59,11 +59,11 @@ int scmp( char *s1, char *s2 ) {
+ }
+ 
+ void initialize_parameters() {
+-	long long a, b;
+-	vector_size++; // Temporarily increment to allocate space for bias
++    long long a, b;
++    vector_size++; // Temporarily increment to allocate space for bias
+     
+-	/* Allocate space for word vectors and context word vectors, and correspodning gradsq */
+-	a = posix_memalign((void **)&W, 128, 2 * vocab_size * vector_size * sizeof(real)); // Might perform better than malloc
++    /* Allocate space for word vectors and context word vectors, and correspodning gradsq */
++    a = posix_memalign((void **)&W, 128, 2 * vocab_size * vector_size * sizeof(real)); // Might perform better than malloc
+     if (W == NULL) {
+         fprintf(stderr, "Error allocating memory for W\n");
+         exit(1);
+@@ -165,7 +165,7 @@ int save_params() {
+         if(fid == NULL) {fprintf(stderr, "Unable to open file %s.\n",vocab_file); return 1;}
+         for(a = 0; a < vocab_size; a++) {
+             if(fscanf(fid,format,word) == 0) return 1;
+-            fprintf(fout, "%s",word);
++            fprintf(fout, "%s\t",word);
+             if(model == 0) { // Save all parameters (including bias)
+                 for(b = 0; b < (vector_size + 1); b++) fprintf(fout," %lf", W[a * (vector_size + 1) + b]);
+                 for(b = 0; b < (vector_size + 1); b++) fprintf(fout," %lf", W[(vocab_size + a) * (vector_size + 1) + b]);
+@@ -174,6 +174,12 @@ int save_params() {
+                 for(b = 0; b < vector_size; b++) fprintf(fout," %lf", W[a * (vector_size + 1) + b]);
+             if(model == 2) // Save "word + context word" vectors (without bias)
+                 for(b = 0; b < vector_size; b++) fprintf(fout," %lf", W[a * (vector_size + 1) + b] + W[(vocab_size + a) * (vector_size + 1) + b]);
++            if(model == 3) // Save only "word" vectors (including bias)
++                for(b = 0; b < vector_size; b++) {
++                    fprintf(fout,"%lf", W[a * (vector_size + 1) + b]);
++                    if(b < (vector_size - 1)) fprintf(fout, " ");
++                }
++                fprintf(fout,"\t%lf", W[a * (vector_size + 1) + vector_size]);
+             fprintf(fout,"\n");
+             if(save_gradsq > 0) { // Save gradsq
+                 fprintf(fgs, "%s",word);
+@@ -280,6 +286,7 @@ int main(int argc, char **argv) {
+         printf("\t\t   0: output all data, for both word and context word vectors, including bias terms\n");
+         printf("\t\t   1: output word vectors, excluding bias terms\n");
+         printf("\t\t   2: output word vectors + context word vectors, excluding bias terms\n");
++        printf("\t\t   3: output word vectors, including bias terms\n");
+         printf("\t-input-file <file>\n");
+         printf("\t\tBinary input file of shuffled cooccurrence data (produced by 'cooccur' and 'shuffle'); default cooccurrence.shuf.bin\n");
+         printf("\t-vocab-file <file>\n");
+@@ -306,7 +313,7 @@ int main(int argc, char **argv) {
+     if ((i = find_arg((char *)"-eta", argc, argv)) > 0) eta = atof(argv[i + 1]);
+     if ((i = find_arg((char *)"-binary", argc, argv)) > 0) use_binary = atoi(argv[i + 1]);
+     if ((i = find_arg((char *)"-model", argc, argv)) > 0) model = atoi(argv[i + 1]);
+-    if(model != 0 && model != 1) model = 2;
++    if(model != 0 && model != 1 && model != 3) model = 2;
+     if ((i = find_arg((char *)"-save-gradsq", argc, argv)) > 0) save_gradsq = atoi(argv[i + 1]);
+     if ((i = find_arg((char *)"-vocab-file", argc, argv)) > 0) strcpy(vocab_file, argv[i + 1]);
+     else strcpy(vocab_file, (char *)"vocab.txt");
