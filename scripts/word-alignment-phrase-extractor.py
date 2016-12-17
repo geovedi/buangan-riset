@@ -31,6 +31,9 @@ def phrase_extraction(srctext, trgtext, alignment):
     srclen = len(srctext)
     trglen = len(trgtext)
 
+    if not isinstance(alignment, list):
+    	alignment = convert_alignment(alignment)    
+    
     e_aligned = [i for i, _ in alignment]
     f_aligned = [j for _, j in alignment]
 
