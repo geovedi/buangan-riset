@@ -32,40 +32,50 @@ def phrase_extraction(srctext, trgtext, alignment):
     trglen = len(trgtext)
 
     if not isinstance(alignment, list):
-    	alignment = convert_alignment(alignment)    
-    
+        alignment = convert_alignment(alignment)    
+
+    # Hack
+    e_maps = defaultdict(list)
+    for i, j in alignment:
+        e_maps[i].append(j+1)
+        if 0 < j and i+2 < srclen:
+            e_maps[j-1].append(i)
+        if i == j:
+            yield (srctext[i], trgtext[j])
+
     e_aligned = [i for i, _ in alignment]
     f_aligned = [j for _, j in alignment]
 
-    for e_start in range(srclen):
-        for e_end in range(e_start, srclen):
-            f_start, f_end = trglen-1 , -1
-            for e,f in alignment:
-                if e_start <= e <= e_end:
-                    f_start = min(f, f_start)
-                    f_end = max(f, f_end)
+    for e_start in e_maps.keys():
+        e_end = max(e_maps[e_start])
+        f_start = trglen-1
+        f_end = -1
+        for e, f in alignment:
+            if e_start <= e <= e_end:
+                f_start = min(f, f_start)
+                f_end = max(f, f_end)
 
-            if f_end < 0:
+        if f_end < 0:
+            break
+
+        for e, f in alignment:
+            if ((f_start <= f <= f_end) and (e < e_start or e > e_end)):
                 break
 
-            for e, f in alignment:
-                if ((f_start <= f <= f_end) and (e < e_start or e > e_end)):
-                    break
-
-            fs = f_start
+        fs = f_start
+        while True:
+            fe = f_end
             while True:
-                fe = f_end
-                while True:
-                    src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1))
-                    trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1))
-                    yield (src_phrase, trg_phrase)
+                src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1) if srctext[i])
+                trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1) if trgtext[i])
+                yield (src_phrase, trg_phrase)
 
-                    fe += 1
-                    if fe in f_aligned or fe == trglen:
-                        break
-                fs -=1 
-                if fs in f_aligned or fs < 0:
+                fe += 1
+                if fe in f_aligned or fe == trglen:
                     break
+            fs -=1 
+            if fs in f_aligned or fs < 0:
+                break
 
 
 @plac.annotations(
@@ -86,8 +96,6 @@ def main(source_file, target_file, aligment_file, output_file, max_ngram=5):
 
     with codecs.open(output_file, 'w', 'utf-8') as out:
         for x, y, z in zip(sources, targets, alignments):
-            if len(x.split()) > 30 or len(y.split()) > 30:
-                continue
             for a, b in phrase_extraction(x, y, z):
                 a, b = whitespace_tokenizer(a), whitespace_tokenizer(b)
                 if 1 <= len(a) <= max_ngram and 1 <= len(b) <= max_ngram:
