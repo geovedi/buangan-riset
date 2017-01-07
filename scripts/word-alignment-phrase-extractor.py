@@ -35,13 +35,12 @@ def phrase_extraction(srctext, trgtext, alignment):
         alignment = convert_alignment(alignment)    
 
     # Hack
-    e_maps = defaultdict(list)
+    e_maps = defaultdict(set)
+    i_, j_ = 0, 0
     for i, j in alignment:
-        e_maps[i].append(j+1)
-        if 0 < j and i+2 < srclen:
-            e_maps[j-1].append(i)
-        if i == j:
-            yield (srctext[i], trgtext[j])
+        e_maps[min([i_, i])].add(max(j_, j))
+        if i_ + 1 != i:
+            i_, j_ = i, j
 
     e_aligned = [i for i, _ in alignment]
     f_aligned = [j for _, j in alignment]
