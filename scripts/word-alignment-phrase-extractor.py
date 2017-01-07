@@ -66,8 +66,8 @@ def phrase_extraction(srctext, trgtext, alignment):
         while True:
             fe = f_end
             while True:
-                src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1) if srctext[i])
-                trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1) if trgtext[i])
+                src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1))
+                trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1))
                 yield (src_phrase, trg_phrase)
 
                 fe += 1
