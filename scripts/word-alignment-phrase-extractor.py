@@ -1,20 +1,19 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
 
 import plac
 import codecs
-import regex as re
-from types import StringType
+import re
 from collections import defaultdict
+from itertools import izip
 
 import logging
 logging.basicConfig(format='%(asctime)s [%(process)d] [%(levelname)s] %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S', level=logging.INFO)
 
 
-def read_file(fname):
-    return codecs.open(fname, 'r', 'utf-8').read().strip().split('\n')
 
 def convert_alignment(a):
     return map(lambda x: tuple(map(lambda y: int(y), x.split('-'))), a.split())
@@ -65,9 +64,12 @@ def phrase_extraction(srctext, trgtext, alignment):
         while True:
             fe = f_end
             while True:
-                src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1))
-                trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1))
-                yield (src_phrase, trg_phrase)
+                try:
+                    src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1))
+                    trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1))
+                    yield (src_phrase, trg_phrase)
+                except:
+                    pass
 
                 fe += 1
                 if fe in f_aligned or fe == trglen:
@@ -78,24 +80,20 @@ def phrase_extraction(srctext, trgtext, alignment):
 
 
 @plac.annotations(
-    source_file=plac.Annotation("Source file", 'option', 's', str),
-    target_file=plac.Annotation("Target file", 'option', 't', str),
-    aligment_file=plac.Annotation("Alignment file", 'option', 'a', str),
+    input_file=plac.Annotation("Input file", 'option', 's', str),
+    alignment_file=plac.Annotation("Alignment file", 'option', 'a', str),
     output_file=plac.Annotation("Output file", 'option', 'o', str),
     max_ngram=plac.Annotation("Max N-gram length", 'option', 'm', int)
 )
-def main(source_file, target_file, aligment_file, output_file, max_ngram=5):
-    assert source_file and target_file and aligment_file and output_file, 'missing arguments'
+def main(input_file, alignment_file, output_file, max_ngram=10):
+    assert input_file and alignment_file and output_file, 'missing arguments'
+    with codecs.open(output_file, 'w', 'utf-8') as out, \
+        codecs.open(input_file, 'r', 'utf-8') as input_f, \
+        codecs.open(alignment_file, 'r', 'utf-8') as alignment_f:
+        for pair, alignment in izip(input_f, alignment_f):
+            source, target = pair.split(' ||| ')
 
-    sources = read_file(source_file)
-    targets = read_file(target_file)
-    alignments = map(convert_alignment, read_file(aligment_file))
-
-    assert len(sources) == len(targets) == len(alignments), 'unequal length'
-
-    with codecs.open(output_file, 'w', 'utf-8') as out:
-        for x, y, z in zip(sources, targets, alignments):
-            for a, b in phrase_extraction(x, y, z):
+            for a, b in phrase_extraction(source, target, alignment):
                 a, b = whitespace_tokenizer(a), whitespace_tokenizer(b)
                 if 1 <= len(a) <= max_ngram and 1 <= len(b) <= max_ngram:
                     out.write('{0} ||| {1}\n'.format(' '.join(a), ' '.join(b)))
