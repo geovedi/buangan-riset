@@ -7,7 +7,13 @@ import plac
 import codecs
 import re
 from collections import defaultdict
-from itertools import izip
+
+import sys
+if sys.version_info >= (3, 0):
+    izip = zip
+else:
+    from itertools import izip
+
 
 import logging
 logging.basicConfig(format='%(asctime)s [%(process)d] [%(levelname)s] %(message)s',
@@ -16,7 +22,7 @@ logging.basicConfig(format='%(asctime)s [%(process)d] [%(levelname)s] %(message)
 
 
 def convert_alignment(a):
-    return map(lambda x: tuple(map(lambda y: int(y), x.split('-'))), a.split())
+    return tuple(map(lambda x: tuple(map(lambda y: int(y), x.split('-'))), a.split()))
 
 def postclean(text):
     return text.replace(u'\u200b', '')
@@ -31,52 +37,50 @@ def phrase_extraction(srctext, trgtext, alignment):
     trglen = len(trgtext)
 
     if not isinstance(alignment, list):
-        alignment = convert_alignment(alignment)    
+def phrase_extraction(srctext, trgtext, alignment):
+    srctext = srctext.split()
+    trgtext = trgtext.split()
+    srclen = len(srctext)
+    trglen = len(trgtext)
 
-    # Hack
-    e_maps = defaultdict(set)
-    i_, j_ = 0, 0
-    for i, j in alignment:
-        e_maps[min([i_, i])].add(max(j_, j))
-        if i_ + 1 != i:
-            i_, j_ = i, j
+    if not isinstance(alignment, list):
+        alignment = list(convert_alignment(alignment))
 
     e_aligned = [i for i, _ in alignment]
     f_aligned = [j for _, j in alignment]
 
-    for e_start in e_maps.keys():
-        e_end = max(e_maps[e_start])
-        f_start = trglen-1
-        f_end = -1
-        for e, f in alignment:
-            if e_start <= e <= e_end:
-                f_start = min(f, f_start)
-                f_end = max(f, f_end)
+    for e_start in range(srclen):
+        for e_end in range(e_start, srclen):
+            f_start, f_end = trglen-1 , -1
+            for e, f in alignment:
+                if e_start <= e <= e_end:
+                    f_start = min(f, f_start)
+                    f_end = max(f, f_end)
 
-        if f_end < 0:
-            break
-
-        for e, f in alignment:
-            if ((f_start <= f <= f_end) and (e < e_start or e > e_end)):
+            if f_end < 0:
                 break
 
-        fs = f_start
-        while True:
-            fe = f_end
-            while True:
-                try:
-                    src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1))
-                    trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1))
-                    yield (src_phrase, trg_phrase)
-                except:
-                    pass
-
-                fe += 1
-                if fe in f_aligned or fe == trglen:
+            for e, f in alignment:
+                if ((f_start <= f <= f_end) and (e < e_start or e > e_end)):
                     break
-            fs -=1 
-            if fs in f_aligned or fs < 0:
-                break
+
+            fs = f_start
+            while True:
+                fe = f_end
+                while True:
+                    try:
+                        src_phrase = " ".join(srctext[i] for i in range(e_start, e_end+1))
+                        trg_phrase = " ".join(trgtext[i] for i in range(fs, fe+1))
+                        yield (src_phrase, trg_phrase)
+                    except:
+                        pass
+
+                    fe += 1
+                    if fe in f_aligned or fe == trglen:
+                        break
+                fs -=1
+                if fs in f_aligned or fs < 0:
+                    break
 
 
 @plac.annotations(
