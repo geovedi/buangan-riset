@@ -59,8 +59,7 @@ def main(lang, input_file, output_file):
 
     with io.open(output_file, 'w', encoding='utf-8') as out:
         text = ''
-        for i, line in enumerate(read_file(input_file)):
-            text = preprocess(line)
+        for i, text in enumerate(read_file(input_file)):
             out.write(' '.join(repr_word(t) for t in nlp(text)))
             out.write('\n')
 
