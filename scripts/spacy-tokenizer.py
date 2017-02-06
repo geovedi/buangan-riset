@@ -10,6 +10,7 @@ import spacy
 
 
 def read_file(loc):
+    must_decode = True
     if loc.endswith('.bz2'):
         import bz2
         input_stream = bz2.BZ2File(loc)
@@ -17,11 +18,14 @@ def read_file(loc):
         import gzip
         input_stream = gzip.GzFile(loc)
     else:
-        input_stream = io.open(loc)
+        input_stream = io.open(loc, 'r', encoding='utf-8')
+        must_decode = False
 
     for line in input_stream:
-        text = line.strip().decode('utf-8')
+        text = line.strip()
         if text:
+            if must_decode:
+                text = text.decode('utf-8')
             yield preprocess(text)
 
 
@@ -60,9 +64,6 @@ def main(lang, input_file, output_file):
             out.write(' '.join(repr_word(t) for t in nlp(text)))
             out.write('\n')
 
-            if i % 10000 == 0:
-                print('Processed #{0}'.format(i))
-        print('Processed #{0}'.format(i))
 
 if __name__ == '__main__':
     plac.call(main)
