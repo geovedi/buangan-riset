@@ -2,15 +2,15 @@
 
 from __future__ import unicode_literals
 
-import codecs
+import io
 from nltk.tag.util import str2tuple, tuple2str
 
 
 def fix(corpus_ud, corpus_itb, corpus_out):
     itb = map(lambda tagged: map(str2tuple, tagged.split()),
-              codecs.open(corpus_itb, 'r', 'utf-8').read().strip().split('\n'))
+              io.open(corpus_itb, 'r', encoding='utf-8').read().strip().split('\n'))
     ud = map(lambda tagged: map(str2tuple, tagged.split()),
-             codecs.open(corpus_ud, 'r', 'utf-8').read().strip().split('\n'))
+             io.open(corpus_ud, 'r', encoding='utf-8').read().strip().split('\n'))
 
     corpus = []
     for x, y in zip(ud, itb):
@@ -35,7 +35,8 @@ def fix(corpus_ud, corpus_itb, corpus_out):
             sent.append(tuple2str(yy))
         corpus.append(sent)
 
-    with codecs.open(corpus_out, 'w', 'utf-8') as out:
+    with io.open(corpus_out, 'w', encoding='utf-8') as out:
         for sent in corpus:
             out.write(' '.join(sent))
             out.write('\n')
+
