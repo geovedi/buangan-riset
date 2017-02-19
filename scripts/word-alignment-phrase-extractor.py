@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 
 import plac
-import codecs
+import io
 import re
 from collections import defaultdict
 
@@ -84,9 +84,9 @@ def phrase_extraction(srctext, trgtext, alignment):
 )
 def main(input_file, alignment_file, output_file, max_ngram=10):
     assert input_file and alignment_file and output_file, 'missing arguments'
-    with codecs.open(output_file, 'w', 'utf-8') as out, \
-        codecs.open(input_file, 'r', 'utf-8') as input_f, \
-        codecs.open(alignment_file, 'r', 'utf-8') as alignment_f:
+    with io.open(output_file, 'w', encoding='utf-8') as out, \
+        io.open(input_file, 'r', encoding='utf-8') as input_f, \
+        io.open(alignment_file, 'r', encoding='utf-8') as alignment_f:
         for pair, alignment in izip(input_f, alignment_f):
             source, target = pair.split(' ||| ')
 
