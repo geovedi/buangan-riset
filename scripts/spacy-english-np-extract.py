@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 
 import plac
-import codecs
+import io
 from spacy.en import English
 from spacy.parts_of_speech import NOUN
 import logging
@@ -26,10 +26,10 @@ def extract_np(doc):
                 yield np.strip()
 
 def main(prefix, filelist, output):
-    with codecs.open(output, 'w', 'utf-8') as out:
-        for i, fname in enumerate(codecs.open(filelist, 'r', 'utf-8')):
+    with io.open(output, 'w', encoding='utf-8') as out:
+        for i, fname in enumerate(io.open(filelist, 'r', encoding='utf-8')):
             fname = fname.strip()
-            doc = codecs.open('{0}/{1}'.format(prefix, fname), 'r', 'utf-8').read()
+            doc = io.open('{0}/{1}'.format(prefix, fname), 'r', encoding='utf-8').read()
             spacy_doc = nlp(doc)
             for np in extract_np(spacy_doc):
                 out.write('{0}\n'.format(np))
@@ -37,3 +37,4 @@ def main(prefix, filelist, output):
 
 if __name__ == '__main__':
     plac.call(main)
+
