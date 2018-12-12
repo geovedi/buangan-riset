@@ -1,24 +1,27 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 import fileinput
-from itertools import izip
 
 def process(block):
     # currently focus on chunk, ner, and srl
-    sentence, lines = block[0], block[1:]
-    offsets, ners, chunks, srls = [], [], [], []
+    tokens, offsets, ners, chunks, srls = [], [], [], [], []
 
     # token, start, end, pos, chunk, ner, srl_verb, srl_n+
-    for line in lines:
+    for line in block:
         parts = line.strip().split()
-        offsets.append([int(parts[1]), int(parts[2])])
+        tokens.append(parts[0])
+        offsets.append((int(parts[1]), int(parts[2])))
         chunks.append(parts[4])
         ners.append(parts[5])
         srls.append(tuple(parts[7:]))
 
-    srls = list(izip(*srls))
+    srls = list(zip(*srls))
+
+    # reconstruct sentence
+    last_end = 0
+    sentence = ''
+    for token, (offset_start, offset_end) in zip(tokens, offsets):
+        space = ' ' * (offset_start - last_end)
+        sentence += space + token
+        last_end = offset_end
 
     phrases = []
     for (offset_start, offset_end), tok in zip(offsets, chunks):
